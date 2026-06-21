@@ -1,0 +1,143 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nguyenpandaCode}[
+    2026/06/21 "nguyenpandaCode"
+    LaTeX template for code snip was created by Ha Tuong Nguyen 
+    (a.k.a nguyenpanda) for my research progress updates 
+    at Ho Chi Minh City University of Technology. 
+    Feel free to use it if you would like. 
+    If you think it looks ugly, then f your damn opinion.
+    Email: hatuongnguyen0107@gmail.com | 
+    Github: https://github.com/nguyenpanda
+]
+
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{listings, skins, breakable}
+
+% Define colors
+\definecolor{codegreen}{RGB}{40, 167, 69}
+\definecolor{codepurple}{RGB}{111, 66, 193}
+\definecolor{codegray}{RGB}{106, 115, 125}
+\definecolor{backcolour}{RGB}{246, 248, 250}
+\definecolor{keywordmagenta}{RGB}{215, 58, 73}
+\definecolor{codeblue}{RGB}{3, 102, 214}
+
+% Define code style
+\lstdefinestyle{code_style}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen}\itshape,
+    keywordstyle=\color{keywordmagenta}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\jetbrains\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=none,
+    rulecolor=\color{codegray},
+    upquote=true,
+    columns=fixed,
+    basewidth=0.5em,
+    extendedchars=true,
+    % Fix for the ** issue: use explicit characters
+    literate={**}{{\char42\char42}}2 {^}{{\char94}}1,
+}
+
+% Set default style
+\lstset{style=code_style}
+
+% Generic code environment with tcolorbox
+\newtcblisting{codeblock}[2][]{
+    arc=3pt,
+    boxrule=0.5pt,
+    colback=backcolour,
+    colframe=codegray!30,
+    listing only,
+    listing options={style=code_style, language=#2},
+    fonttitle=\worksans\small\bfseries,
+    coltitle=black,
+    colbacktitle=codegray!10,
+    enhanced,
+    attach boxed title to top left={yshift=-2mm, xshift=2mm},
+    boxed title style={sharp corners, boxrule=0.5pt, colframe=codegray!30},
+    #1
+}
+
+% File input commands
+\newcommand{\filecode}[2][]{\lstinputlisting[style=code_style,#1]{#2}}
+\newcommand{\cppfile}[2][]{\filecode[language=C++,#1]{#2}}
+\newcommand{\pyfile}[2][]{\filecode[language=Python,#1]{#2}}
+\newcommand{\bashfile}[2][]{\filecode[language=bash,#1]{#2}}
+
+% Listing labels
+\renewcommand{\lstlistingname}{Code}
+\renewcommand{\lstlistlistingname}{List of Code}
+
+% Simplified Environments
+\lstnewenvironment{cppcode}[1][]{%
+    \lstset{style=code_style, language=C++, #1}%
+}{}
+
+\lstnewenvironment{pycode}[1][]{%
+    \lstset{style=code_style, language=Python, #1}%
+}{}
+
+\lstnewenvironment{bashcode}[1][]{%
+    \lstset{style=code_style, language=bash, #1}%
+}{}
+
+% Helpful Beamer environments
+\newenvironment{pblock}[1]{%
+    \begin{tcolorbox}[
+        enhanced,
+        title=#1,
+        colback=hcmutlb!5,
+        colframe=hcmutlb,
+        coltitle=white,
+        fonttitle=\worksans\bfseries,
+        arc=2pt,
+        boxrule=1pt,
+    ]%
+}{%
+    \end{tcolorbox}%
+}
+
+\newenvironment{palert}[1]{%
+    \begin{tcolorbox}[
+        enhanced,
+        title=#1,
+        colback=red!5,
+        colframe=red!75!black,
+        coltitle=white,
+        fonttitle=\worksans\bfseries,
+        arc=2pt,
+        boxrule=1pt,
+    ]%
+}{%
+    \end{tcolorbox}%
+}
+
+\newenvironment{pinfo}[1]{%
+    \begin{tcolorbox}[
+        enhanced,
+        title=#1,
+        colback=green!5,
+        colframe=green!50!black,
+        coltitle=white,
+        fonttitle=\worksans\bfseries,
+        arc=2pt,
+        boxrule=1pt,
+    ]%
+}{%
+    \end{tcolorbox}%
+}
+
+\endinput

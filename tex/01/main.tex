@@ -1,0 +1,30 @@
+\documentclass{nguyenpandaSlide}
+% \documentclass[defaultfont]{nguyenpandaSlide}
+% \documentclass[draft]{nguyenpandaSlide}
+% \documentclass[draft, defaultfont]{nguyenpandaSlide}
+
+% Bibliography
+\addbibresource{refs/refs.bib}
+
+% Additional packages for complex examples
+\usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+\usepackage{nguyenpandaCode}
+
+\input{tex/01/main-setup.tex}
+
+\begin{document}
+    \CoverPage
+    
+    \MetaInfo
+    
+    \SlideTOC
+    \EnableCurrentTOC
+
+    \input{tex/01/00.tex}
+    \input{tex/01/01.tex}
+    \input{tex/01/citation.tex}
+
+    \input{tex/01/final.tex}
+
+    \References
+\end{document}

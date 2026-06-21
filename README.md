@@ -9,12 +9,27 @@
     </body>
 </html>
 
-This LaTeX template for report slides was created by Ha Tuong Nguyen (a.k.a <a href="https://github.com/nguyenpanda">nguyenpanda</a>) for my research progress updates at <a href="https://oisp.hcmut.edu.vn/"><strong>Ho Chi Minh City University of Technology</strong></a>. Feel free to use it if you’d like. If you think it looks ugly, then f your damn opinion.
+This LaTeX template for report slides was created by Ha Tuong Nguyen (a.k.a <a href="https://github.com/nguyenpanda">nguyenpanda</a>) for my research progress updates at <a href="https://oisp.hcmut.edu.vn/"><strong>Ho Chi Minh City University of Technology</strong></a>. Feel free to use it if you’d like.
+
+## Features
+
+- **Modern Aesthetic:** Custom fonts (Work Sans, Bernoru, JetBrains Mono) and clean layout.
+- **Robust Build System:** Automated compilation using `latexmk` and `lualatex` via a professional Makefile.
+- **Integration:** Fully compatible with `tmpl` CLI.
 
 ## How to build pdf
 
+Ensure you have a modern LaTeX distribution (TeX Live 2024+) with `lualatex` and `latexmk`.
+
 ```bash
+# Basic compilation
+make compile
+
+# Compile and export to pdf/ directory
 make full
+
+# Clean temporary files
+make clean
 ```
 
 ## [Demo](pdf/main.pdf)
@@ -26,7 +41,7 @@ make full
 
 ## License
 
-This project under the [MIT LICESEN](LICENSE.txt).
+This project under the [MIT LICENSE](LICENSE.txt).
 
 ## Contact Information and Profiles 📧
 

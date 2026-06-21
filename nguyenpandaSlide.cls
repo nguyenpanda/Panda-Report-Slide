@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%    PandaReportSlide CLASS     %%%%%%%%%%%
+%%%%%%%%%%    nguyenpandaSlide CLASS     %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{PandaReportSlide}[
-    2025/07/10 "PandaReportSlide"
+\ProvidesClass{nguyenpandaSlide}[
+    2026/06/21 "PandaReportSlide"
     LaTeX template for report slides was created by Ha Tuong Nguyen 
     (a.k.a nguyenpanda) for my research progress updates 
     at Ho Chi Minh City University of Technology. 
@@ -50,7 +50,7 @@
 %%% Graphic & Drawing
 \RequirePackage{graphicx}
     \graphicspath{
-        {image/}
+        {media/},
     }
 \RequirePackage{tikz}
 \RequirePackage{tcolorbox}
@@ -62,58 +62,140 @@
     \definecolor{linkblue}{RGB}{0,102,255}
     \definecolor{hcmutlb}{RGB}{20, 136, 219}
     \definecolor{hcmutdb}{RGB}{3, 43, 145}
+    \definecolor{codegreen}{rgb}{0,0.6,0}
+    \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+    \definecolor{codepurple}{rgb}{0.58,0,0.82}
+    \definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+    \definecolor{keywordmagenta}{rgb}{0.8,0,0.8}
 
 %%% Text & Font
+\RequirePackage{iftex}
 \RequirePackage{mfirstuc}   % Text manipulate
 \RequirePackage{lmodern}    % Latin Modern font (for fallback)
-\RequirePackage{fontspec}   % For custom font loading (XeLaTeX/LuaLaTeX)
+
+\ifTUTeX % This handles both XeTeX and LuaTeX in modern LaTeX
+    \RequirePackage{fontspec}
+    \newcommand{\fontDir}{font}
+
     \ifpanda@defaultfont
-        \newfontfamily\bernoru{Latin Modern Roman}
-        % \newfontfamily\nunito{Latin Modern Roman}
-        \newfontfamily\worksans{Latin Modern Roman}
-        \newfontfamily\jetbrains{Latin Modern Roman}
+        \message{*** DEBUG: Using default fonts (Latin Modern) ***}
         \setmainfont{Latin Modern Roman}
+        \setsansfont{Latin Modern Sans}
+        \newcommand{\bernoru}{\rmfamily}
+        \newcommand{\worksans}{\sffamily}
+        \newcommand{\jetbrains}{\ttfamily}
     \else
-        \newfontfamily\bernoru[
-            Path = ./font/BernoruSemiCondensed/static/,
-            UprightFont = *-Regular,
-            Extension = .otf,
-        ]{BernoruSemiCondensed}
+        \message{*** DEBUG: Attempting to load custom fonts from \fontDir ***}
+        \IfFileExists{\fontDir/BernoruSemiCondensed/static/BernoruSemiCondensed-Regular.otf}{
+            \message{*** DEBUG: Found Bernoru ***}
+            \newfontfamily\bernoru[
+                Path = \fontDir/BernoruSemiCondensed/static/,
+                UprightFont = *-Regular,
+                Extension = .otf,
+            ]{BernoruSemiCondensed}
+        }{
+            \message{*** DEBUG: Bernoru NOT found, falling back ***}
+            \newcommand{\bernoru}{\sffamily}
+        }
 
-        % \newfontfamily\nunito[
-        %     Path = ./font/Nunito/static/,
-        %     UprightFont = *-Regular,
-        %     BoldFont = *-Bold,
-        %     ItalicFont = *-Italic,
-        %     BoldItalicFont = *-BoldItalic,
-        %     Extension = .ttf,
-        % ]{Nunito}
+        \IfFileExists{\fontDir/WorkSans/static/WorkSans-Regular.ttf}{
+            \message{*** DEBUG: Found WorkSans ***}
+            \setmainfont[
+                Path = \fontDir/WorkSans/static/,
+                UprightFont = *-Regular,
+                BoldFont = *-Bold,
+                ItalicFont = *-Italic,
+                BoldItalicFont = *-BoldItalic,
+                Extension = .ttf,
+            ]{WorkSans}
+            \setsansfont[
+                Path = \fontDir/WorkSans/static/,
+                UprightFont = *-Regular,
+                BoldFont = *-Bold,
+                ItalicFont = *-Italic,
+                BoldItalicFont = *-BoldItalic,
+                Extension = .ttf,
+            ]{WorkSans}
+            \newcommand{\worksans}{\sffamily}
+        }{
+            \message{*** DEBUG: WorkSans NOT found, falling back ***}
+            \setmainfont{Latin Modern Roman}
+            \setsansfont{Latin Modern Sans}
+            \newcommand{\worksans}{\sffamily}
+        }
 
-        \newfontfamily\worksans[
-            Path = ./font/WorkSans/static/,
-            UprightFont = *-Regular,
-            BoldFont = *-Bold,
-            ItalicFont = *-Italic,
-            BoldItalicFont = *-BoldItalic,
-            Extension = .ttf,
-        ]{WorkSans}
-
-        \newfontfamily\jetbrains[
-            Path = ./font/JetBrainsMono/static/,
-            UprightFont = *-Regular,
-            BoldFont = *-Bold,
-            ItalicFont = *-Italic,
-            BoldItalicFont = *-BoldItalic,
-            Extension = .ttf,
-        ]{JetBrainsMono}
-        
-        \setmainfont{WorkSans}
+        \IfFileExists{\fontDir/JetBrainsMono/static/JetBrainsMono-Regular.ttf}{
+            \message{*** DEBUG: Found JetBrainsMono ***}
+            \newfontfamily\jetbrains[
+                Path = \fontDir/JetBrainsMono/static/,
+                UprightFont = *-Regular,
+                BoldFont = *-Bold,
+                ItalicFont = *-Italic,
+                BoldItalicFont = *-BoldItalic,
+                Extension = .ttf,
+            ]{JetBrainsMono}
+        }{
+            \message{*** DEBUG: JetBrainsMono NOT found, falling back ***}
+            \newcommand{\jetbrains}{\ttfamily}
+        }
     \fi
+\else
+    \newcommand{\worksans}{\sffamily}
+    \newcommand{\bernoru}{\sffamily}
+    \newcommand{\jetbrains}{\ttfamily}
+\fi
+
+%%% Citation
+\RequirePackage[
+    backend=bibtex,
+    style=ieee,
+    sorting=none
+]{biblatex}
 
 %%% Other packages
+\RequirePackage{anyfontsize}
+\RequirePackage{microtype}
+\RequirePackage{lipsum}               % Dummy text
 \RequirePackage{emoji}
 \RequirePackage{array}
+\RequirePackage{booktabs}             % Nicer tables
+\RequirePackage{caption}              % Caption customization
+    \captionsetup[table]{font=small, skip=5pt, justification=centering}
 \RequirePackage{hyperref}
+
+% ------------------------------------------------------------------
+% Code Listings
+% ------------------------------------------------------------------
+\RequirePackage{nguyenpandaCode}
+
+% ------------------------------------------------------------------
+% Utility Commands
+% ------------------------------------------------------------------
+\RequirePackage{ifthen}               % Required for \ifthenelse
+
+\newcommand{\todo}[1]{%
+    \ifthenelse{\equal{#1}{}}%
+        {\textbf{\textcolor{red}{[TODO: NGUYENPANDA]}}}%
+        {\textbf{\textcolor{red}{[TODO: #1]}}}%
+}
+
+% Month name macro
+\newcommand{\Month}{
+    \ifcase \the\month
+    \or January
+    \or February
+    \or March
+    \or April
+    \or May
+    \or June
+    \or July
+    \or August
+    \or September
+    \or October
+    \or November
+    \or December
+    \fi
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -185,14 +267,14 @@
 
     \else
         \setbeamertemplate{background canvas}{
-            \includegraphics[width=\paperwidth,height=\paperheight]{image/hcmut_theme/FrontBackground-nologo.pdf}
+            \includegraphics[width=\paperwidth,height=\paperheight]{hcmut_theme/FrontBackground-nologo.pdf}
         }
     \fi
 
     \begin{frame}[plain]
         \centering
 
-        \includegraphics[height=1cm]{logo/cover.png}
+        \includegraphics[height=1cm]{logo/ganggang.png}
         \vspace{0.5cm}
     
         \textbf{\bernoru\Huge\scalebox{1}[2]{\@CoverTitleOverride}} \\ [0.5cm]
@@ -231,7 +313,7 @@
         \setbeamertemplate{background canvas}{}
     \else
         \setbeamertemplate{background canvas}{
-            \includegraphics[width=\paperwidth,height=\paperheight]{image/hcmut_theme/Background-nologo.pdf}
+            \includegraphics[width=\paperwidth,height=\paperheight]{hcmut_theme/Background-nologo.pdf}
         }
     \fi
 }
@@ -313,9 +395,8 @@
 
 \setbeamertemplate{bibliography item}{\insertbiblabel}
 
-\newcommand{\References}[1]{
+\newcommand{\References}{
     \begin{frame}[allowframebreaks]{References}
-        \bibliographystyle{ieeetr}
-        \bibliography{#1}
+        \printbibliography
     \end{frame}
 }

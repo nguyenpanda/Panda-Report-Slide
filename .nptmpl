@@ -1,0 +1,44 @@
+name: LaTeX Periodic Report Professional
+version: 1.1.0
+author: nguyenpanda
+email: hatuongnguyen0107@gmail.com
+description: >
+  Professional Beamer template for research progress reports.
+  Features modern custom fonts (Work Sans, Bernoru, JetBrains Mono),
+  complex examples (TiKZ, Algorithms, Math, Listings),
+  and a robust automated build system using LuaLaTeX and latexmk.
+languages:
+- latex
+- tex
+- latexmk
+- make
+license: MIT
+url: https://nguyenpanda.com
+tags:
+- latex
+- latexmk
+- lualatex
+- beamer
+- presentation
+- research
+- hcmut
+- professional
+ignore:
+- .git/
+- .vscode/
+- .idea/
+- .DS_Store
+- build/
+- pdf/
+- '*.aux'
+- '*.log'
+- '*.nav'
+- '*.out'
+- '*.snm'
+- '*.toc'
+- '*.vrb'
+- '*.fls'
+- '*.fdb_latexmk'
+- '*.synctex.gz'
+hooks:
+- echo 'LaTeX Periodic Report Template cloned!'
